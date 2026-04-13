@@ -1,3 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Breakout Game</title>
+<style>
+  body, html {
+    margin: 0;
+    padding: 0;
+    background: black;
+    color: white;
+    font-family: sans-serif;
+
+    /* Prevent scrolling on iPhone */
+    touch-action: none;
+    overscroll-behavior: none;
+  }
+
+  #game {
+    background: #000;
+    display: block;
+    margin: auto;
+    border: 2px solid white;
+  }
+
+  #controls {
+    text-align: center;
+    margin-top: 10px;
+  }
+
+  button {
+    padding: 10px 20px;
+    font-size: 16px;
+    margin: 5px;
+  }
+</style>
+</head>
+<body>
+
+<h1 style="text-align:center;">Breakout Game</h1>
+<p id="info" style="text-align:center;">Press Start to play.</p>
+
+<canvas id="game" width="600" height="400"></canvas>
+
+<div id="controls">
+  <button id="startBtn">Start</button>
+  <button id="restartBtn">Restart</button>
+</div>
+
 <script>
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
@@ -9,7 +57,7 @@ const restartBtn = document.getElementById("restartBtn");
 let gameState = "idle";
 let score = 0;
 let lives = 3;
-let level = 1; // NEW
+let level = 1;
 
 // Paddle
 const paddle = {
@@ -43,7 +91,10 @@ let bricks = [];
 
 // Input
 let keys = {};
+let touchX = null;
+let isTouching = false;
 
+// Create bricks
 function createBricks() {
   bricks = [];
   for (let r = 0; r < rows; r++) {
@@ -51,7 +102,7 @@ function createBricks() {
       bricks.push({
         x: offsetLeft + c * (brickWidth + brickPadding),
         y: offsetTop + r * (brickHeight + brickPadding),
-        strength: Math.floor(Math.random() * (2 + level)) + 2, // STRONGER + LEVEL SCALED
+        strength: Math.floor(Math.random() * (2 + level)) + 2,
         explosive: Math.random() < 0.15
       });
     }
@@ -92,13 +143,13 @@ function resetBallAndPaddle() {
 function startGame() {
   if (gameState === "playing") return;
   gameState = "playing";
-  info.textContent = "Use ← → to move. Break all bricks!";
+  info.textContent = "Use ← → or touch to move.";
 }
 
 function restartGame() {
   score = 0;
   lives = 3;
-  level = 1; // RESET LEVEL
+  level = 1;
   ball.speed = 5;
   createBricks();
   resetBallAndPaddle();
@@ -109,18 +160,48 @@ function restartGame() {
 document.addEventListener("keydown", (e) => { keys[e.key] = true; });
 document.addEventListener("keyup", (e) => { keys[e.key] = false; });
 
+// TOUCH CONTROLS
+canvas.addEventListener("touchstart", (e) => {
+  isTouching = true;
+  touchX = e.touches[0].clientX;
+});
+
+canvas.addEventListener("touchmove", (e) => {
+  if (!isTouching) return;
+
+  const rect = canvas.getBoundingClientRect();
+  const x = e.touches[0].clientX - rect.left;
+
+  paddle.x = x - paddle.width / 2;
+
+  if (paddle.x < 0) paddle.x = 0;
+  if (paddle.x + paddle.width > canvas.width)
+    paddle.x = canvas.width - paddle.width;
+});
+
+canvas.addEventListener("touchend", () => {
+  isTouching = false;
+});
+
 startBtn.addEventListener("click", startGame);
 restartBtn.addEventListener("click", restartGame);
 
 function update() {
   if (gameState === "playing") {
-    if (keys["ArrowLeft"] || keys["a"]) paddle.dx = -paddle.speed;
-    else if (keys["ArrowRight"] || keys["d"]) paddle.dx = paddle.speed;
-    else paddle.dx = 0;
+
+    // Keyboard movement when NOT touching
+    if (!isTouching) {
+      if (keys["ArrowLeft"] || keys["a"]) paddle.dx = -paddle.speed;
+      else if (keys["ArrowRight"] || keys["d"]) paddle.dx = paddle.speed;
+      else paddle.dx = 0;
+    } else {
+      paddle.dx = 0;
+    }
 
     paddle.x += paddle.dx;
     if (paddle.x < 0) paddle.x = 0;
-    if (paddle.x + paddle.width > canvas.width) paddle.x = canvas.width - paddle.width;
+    if (paddle.x + paddle.width > canvas.width)
+      paddle.x = canvas.width - paddle.width;
 
     ball.x += ball.dx;
     ball.y += ball.dy;
@@ -177,7 +258,7 @@ function update() {
       } else resetBallAndPaddle();
     }
 
-    // LEVEL UP SYSTEM
+    // LEVEL UP
     if (bricks.every((b) => b.strength <= 0)) {
       level++;
       ball.speed += 0.5;
@@ -220,11 +301,13 @@ function draw() {
   ctx.font = "14px sans-serif";
   ctx.fillText(`Score: ${score}`, 10, 18);
   ctx.fillText(`Lives: ${lives}`, canvas.width - 80, 18);
-  ctx.fillText(`Level: ${level}`, canvas.width / 2 - 30, 18); // NEW
+  ctx.fillText(`Level: ${level}`, canvas.width / 2 - 30, 18);
 }
 
 createBricks();
 resetBallAndPaddle();
-info.textContent = "Press Start to play.";
 update();
 </script>
+
+</body>
+</html>
