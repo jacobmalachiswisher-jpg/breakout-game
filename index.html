@@ -258,13 +258,18 @@ function update() {
       } else resetBallAndPaddle();
     }
 
-    // LEVEL UP
+    // LEVEL UP — reset lives and wait for Start
     if (bricks.every((b) => b.strength <= 0)) {
       level++;
       ball.speed += 0.5;
-      info.textContent = "Level " + level + "!";
+
+      lives = 3; // RESET LIVES EACH LEVEL
+
       createBricks();
       resetBallAndPaddle();
+
+      gameState = "idle";
+      info.textContent = "Level " + level + "! Press Start.";
     }
   }
 
