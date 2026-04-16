@@ -1,0 +1,18 @@
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  background: #111;
+  color: #fff;
+  text-align: center;
+}
+
+h1 {
+  margin-top: 16px;
+}
+
+canvas {
+  display: block;
+  margin: 16px auto 32px;
+  background: linear-gradient(#222, #000);
+  border: 2px solid #555;
+}
