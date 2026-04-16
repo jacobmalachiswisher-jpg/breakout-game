@@ -1,127 +1,14 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Master’s Game Hub</title>
-<style>
-  body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #111;
-    color: white;
-  }
-
-  header {
-    background: #222;
-    padding: 20px;
-    text-align: center;
-    font-size: 32px;
-    font-weight: bold;
-    letter-spacing: 1px;
-  }
-
-  #search-container {
-    text-align: center;
-    margin: 20px;
-  }
-
-  #search {
-    width: 60%;
-    padding: 12px;
-    font-size: 18px;
-    border-radius: 8px;
-    border: none;
-    outline: none;
-  }
-
-  .section-title {
-    font-size: 26px;
-    margin: 20px;
-    border-left: 5px solid #0ff;
-    padding-left: 10px;
-  }
-
-  .game-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 20px;
-    padding: 20px;
-  }
-
-  .game-card {
-    background: #1c1c1c;
-    padding: 15px;
-    border-radius: 10px;
-    text-align: center;
-    transition: 0.2s;
-    border: 1px solid #333;
-  }
-
-  .game-card:hover {
-    transform: scale(1.05);
-    border-color: #0ff;
-  }
-
-  a {
-    color: #0ff;
-    text-decoration: none;
-    font-size: 18px;
-  }
-</style>
+  <meta charset="UTF-8" />
+  <title>Geometry Runner</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
-<header>Master’s Game Hub</header>
-
-<div id="search-container">
-  <input type="text" id="search" placeholder="Search for a game...">
-</div>
-
-<h2 class="section-title">Popular Games</h2>
-<div class="game-grid" id="game-list">
-
-  <div class="game-card" data-name="Slope">
-    <a href="https://slope3.com/" target="_blank">Slope</a>
-  </div>
-
-  <div class="game-card" data-name="Basket Random">
-    <a href="https://www.crazygames.com/game/basket-random" target="_blank">Basket Random</a>
-  </div>
-
-  <div class="game-card" data-name="Run 3">
-    <a href="https://run3.io/" target="_blank">Run 3</a>
-  </div>
-
-  <div class="game-card" data-name="Flappy Bird">
-    <a href="https://flappybird.io/" target="_blank">Flappy Bird</a>
-  </div>
-
-  <div class="game-card" data-name="Chess">
-    <a href="https://www.chess.com/play" target="_blank">Chess</a>
-  </div>
-
-  <div class="game-card" data-name="2048">
-    <a href="https://play2048.co/" target="_blank">2048</a>
-  </div>
-
-  <div class="game-card" data-name="Stack">
-    <a href="https://stack-game.io/" target="_blank">Stack</a>
-  </div>
-
-</div>
-
-<script>
-  const searchInput = document.getElementById("search");
-  const gameCards = document.querySelectorAll(".game-card");
-
-  searchInput.addEventListener("input", () => {
-    const query = searchInput.value.toLowerCase();
-
-    gameCards.forEach(card => {
-      const name = card.getAttribute("data-name").toLowerCase();
-      card.style.display = name.includes(query) ? "block" : "none";
-    });
-  });
-</script>
-
+  <h1>Geometry Runner</h1>
+  <p>Press SPACE or CLICK to jump. Avoid the spikes!</p>
+  <canvas id="game" width="800" height="300"></canvas>
+  <script src="game.js"></script>
 </body>
 </html>
