@@ -1,24 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="utf-8" />
   <title>Geometry Runner</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
-  <div id="ui">
+  <header id="site-header">
     <h1>Geometry Runner</h1>
-    <p>
-      Press <strong>SPACE</strong> or click/tap to jump.
-      <span id="status">Tap to start</span>
-    </p>
-  </div>
+    <p>Press <strong>SPACE</strong> or click/tap to jump. Avoid the spikes!</p>
+  </header>
 
-  <canvas id="gameCanvas" width="960" height="540"></canvas>
+  <main id="content">
+    <!-- Other site content can remain here -->
+    <section id="game-section">
+      <div id="ui">
+        <span id="status">Tap to start</span>
+        <button id="muteBtn" aria-label="Toggle sound">🔊</button>
+      </div>
 
-  <!-- Load the new game code -->
-  <script src="main.js"></script>
+      <!-- Canvas kept at the same id your site used so integration is simple -->
+      <canvas id="game" width="960" height="540"></canvas>
+
+      <noscript>
+        <p>Please enable JavaScript to play the game.</p>
+      </noscript>
+    </section>
+
+    <!-- Example placeholder for other site content -->
+    <section id="below">
+      <p>Welcome to the rest of your site. The game above is embedded and will not replace other pages.</p>
+    </section>
+  </main>
+
+  <script src="game.js"></script>
 </body>
 </html>
