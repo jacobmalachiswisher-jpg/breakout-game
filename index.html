@@ -3,12 +3,22 @@
 <head>
   <meta charset="UTF-8" />
   <title>Geometry Runner</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
-  <h1>Geometry Runner</h1>
-  <p>Press SPACE or CLICK to jump. Avoid the spikes!</p>
-  <canvas id="game" width="800" height="300"></canvas>
-  <script src="game.js"></script>
+  <div id="ui">
+    <h1>Geometry Runner</h1>
+    <p>
+      Press <strong>SPACE</strong> or click/tap to jump.
+      <span id="status">Tap to start</span>
+    </p>
+  </div>
+
+  <canvas id="gameCanvas" width="960" height="540"></canvas>
+
+  <!-- Load the new game code -->
+  <script src="main.js"></script>
 </body>
 </html>
